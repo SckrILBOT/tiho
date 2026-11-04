@@ -129,7 +129,7 @@ body.is-immersed { overflow: hidden; }
 .welcome-line { margin-top: 24px; font-size: 24px; line-height: 1.35; letter-spacing: -.02em; }
 .welcome-description { margin-top: 20px; color: var(--muted); font-size: 16px; line-height: 1.65; }
 .welcome .button { width: 100%; margin-top: 32px; }
-.welcome-footnote { margin-top: 16px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.welcome-footnote { max-width: none; margin-top: 16px; color: var(--muted); font-size: 13px; line-height: 1.5; }
 body.has-entry-open { overflow: hidden; }
 
 .scene-hotspots { position: absolute; inset: 0; pointer-events: none; }
