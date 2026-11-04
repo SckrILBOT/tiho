@@ -47,14 +47,45 @@ try{
  await p.screenshot({path:resolve(out,'320-controls.jpg'),quality:90});
  await click(p,'.site-footer [data-enter]');check('Navigation before sound stays silent',await p.eval(()=>tihoAudio.snapshot().contextState==='uncreated'));
  await click(p,'[data-audio-compact]');await until(p,()=>tihoAudio.snapshot().ready);await sleep(1300);check('Local-file playback still works',await p.eval(()=>tihoAudio.snapshot().rms>.00001));await p.close();
- const bad=await browser.newPage({width:1440,height:900});await bad.goto('http://127.0.0.1:4173/');await bad.eval(()=>{window.tihoAudioData={train:btoa('Invalid audio bytes')};});
+ const bad=await browser.newPage({width:1440,height:900});await bad.goto('http://127.0.0.1:4173/');
+ await bad.eval(async()=>{
+  await new Promise((resolve,reject)=>{
+   const script=document.createElement('script');
+   script.src='./audio-data.js';script.onload=resolve;script.onerror=reject;document.head.append(script);
+  });
+  window.validAudioBundle=window.tihoAudioData;
+  window.tihoAudioData={...window.validAudioBundle,train:btoa('Invalid audio bytes')};
+ });
  await click(bad,'#entry-dialog [data-enter]');await until(bad,()=>tihoAudio.snapshot().failed);
  check('Decode failure identifies phase and track',await bad.eval(()=>tihoAudio.snapshot().lastError.phase==='decode'&&tihoAudio.snapshot().lastError.track==='train'));
  await until(bad,()=>!document.querySelector('#entry-dialog').open);
- await bad.eval(()=>{window.tihoAudioData={rain:'%%%'};});
+ await bad.eval(()=>{window.tihoAudioData={...window.validAudioBundle,rain:'%%%'};});
  await click(bad,'[data-audio-compact]');await until(bad,()=>tihoAudio.snapshot().failed);
  const malformed=await bad.eval(()=>tihoAudio.snapshot().lastError);
- check('Malformed audio encoding identifies phase and track',malformed?.phase==='decode'&&malformed.track==='rain',malformed);await bad.close();
+ check('Malformed audio encoding identifies phase and track',malformed?.phase==='decode'&&malformed.track==='rain',malformed);
+ await bad.eval(()=>{window.tihoAudioData={};});
+ await click(bad,'[data-audio-compact]');await until(bad,()=>tihoAudio.snapshot().failed);
+ const incomplete=await bad.eval(()=>tihoAudio.snapshot());
+ check('Incomplete audio bundle stays unready',!incomplete.ready&&incomplete.lastError?.phase==='load'&&incomplete.lastError.track==='train'&&Object.keys(incomplete.tracks).length===0,incomplete);
+ await click(bad,'[data-audio-compact]');await until(bad,()=>tihoAudio.snapshot().ready);await sleep(1300);
+ check('Retry reloads and plays all tracks',await bad.eval(()=>{const s=tihoAudio.snapshot();return !s.failed&&s.rms>.00001&&Object.keys(s.tracks).length===3;}));
+ await bad.close();
+
+ const first=await browser.newPage({reducedMotion:true});
+ const second=await browser.newPage({reducedMotion:true});
+ const url='http://127.0.0.1:4173/';
+ await first.goto(url);
+ await first.eval(()=>localStorage.setItem('tiho.settings.v1',JSON.stringify({task:'Старая запись',volume:.41})));
+ await first.goto(url);await second.goto(url);
+ await click(first,'[data-entry-close]');await click(second,'[data-entry-close]');
+ await click(first,'.hotspot-notebook');
+ check('Legacy note and volume still load',await first.eval(()=>document.querySelector('#task-text').value==='Старая запись'&&document.querySelector('#audio-volume').value==='41'));
+ await first.eval(()=>{document.querySelector('#task-text').value='Новая запись';document.querySelector('#notebook-dialog form').requestSubmit();});
+ await click(second,'.hotspot-lamp');
+ await first.goto(url);
+ await click(first,'[data-entry-close]');await click(first,'.hotspot-notebook');
+ check('An older tab changing the lamp preserves the saved notebook',await first.eval(()=>document.querySelector('#task-text').value==='Новая запись'&&document.querySelector('#compartment').classList.contains('is-light-off')));
+ await first.close();await second.close();
 }catch(error){console.error(error);process.exitCode=1;}
 finally{writeFileSync(resolve(out,'checks.json'),JSON.stringify(checks,null,2));await browser.close();}
 console.log(checks.map(c=>`${c.passed?'PASS':'FAIL'} ${c.name}`).join('\n'));

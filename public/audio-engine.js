@@ -5,6 +5,7 @@
   let trainMoving=true;
   let lastError=null;
   const tracks={};
+  const trackNames=['train','rain','wind'];
   const toggle=document.querySelector('[data-audio-toggle]');
   const status=document.querySelector('[data-audio-status]');
   const slider=document.querySelector('#audio-volume');
@@ -63,9 +64,15 @@
   async function prepare() {
     try { await loadBundle(); }
     catch(error) { error.audioPhase='load'; throw error; }
-    const decoded=await Promise.all(Object.entries(window.tihoAudioData).map(async([name,data])=>{
+    const bundle=window.tihoAudioData;
+    for(const name of trackNames) {
+      if(typeof bundle?.[name]!=='string' || !bundle[name]) {
+        throw Object.assign(new Error('Missing audio track: '+name),{audioPhase:'load',audioTrack:name});
+      }
+    }
+    const decoded=await Promise.all(trackNames.map(async name=>{
       try {
-        const bytes=Uint8Array.from(atob(data),character=>character.charCodeAt(0));
+        const bytes=Uint8Array.from(atob(bundle[name]),character=>character.charCodeAt(0));
         return [name,await context.decodeAudioData(bytes.buffer)];
       }
       catch(error) { error.audioPhase='decode'; error.audioTrack=name; throw error; }
@@ -94,7 +101,10 @@
       // Resume while still in the explicit user gesture, before async decoding.
       const resume=context.resume();
       if(!ready && !loading) {
-        loading=prepare().finally(()=>{loading=null;});
+        loading=prepare().catch(error=>{
+          delete window.tihoAudioData;
+          throw error;
+        }).finally(()=>{loading=null;});
       }
       render();
       await Promise.all([resume,loading]);
