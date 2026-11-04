@@ -1,0 +1,6 @@
+/dist/
+/.taste-skill/
+/previews/
+__pycache__/
+.env
+.env.*

@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "sha256": "b84c1daf259a24283be40b7663656d17676df4eb60c1e0332820570db891848a",
+      "name": "rain-source.ogg"
+    },
+    {
+      "sha256": "b749ecf8f04842075c061e2f5572c85b2827d9ecc0670476f3339a9288bb4d71",
+      "name": "train-source.ogg"
+    },
+    {
+      "sha256": "cfdc81be69cd5f434ebfeb708bdf094725f3052d76691f550ff0e10eee3e32d2",
+      "name": "wind-source.ogg"
+    }
+  ],
+  "repository": "https://github.com/rafaelmardojai/blanket",
+  "downloaded": "2026-11-04",
+  "revision": "bbc88ed3b9dfa8b21805d77286f3183abf88f36f"
+}

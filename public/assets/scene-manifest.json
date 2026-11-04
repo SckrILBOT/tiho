@@ -1,0 +1,238 @@
+{
+  "coordinateSystem": {
+    "width": 1672,
+    "height": 941
+  },
+  "sourceSha256": "e0a9a2e73b6fa11fd0a4c23d6346e2763fd267dea7eb495c99a90fdb5e5c57da",
+  "images": {
+    "compartment.webp": {
+      "source": "compartment-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "crop": null,
+      "size": [
+        1672,
+        941
+      ],
+      "bytes": 107184,
+      "alpha": null
+    },
+    "compartment-960.webp": {
+      "source": "compartment-source.png",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "crop": null,
+      "size": [
+        960,
+        540
+      ],
+      "bytes": 43620,
+      "alpha": null
+    },
+    "forest-panorama.webp": {
+      "source": "generated-source/forest.png",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "crop": null,
+      "size": [
+        2172,
+        724
+      ],
+      "bytes": 98394,
+      "alpha": null
+    },
+    "lamp-off.webp": {
+      "source": "generated-source/lamp.png",
+      "sourceSize": [
+        1086,
+        1448
+      ],
+      "crop": [
+        133,
+        328,
+        997,
+        1093
+      ],
+      "size": [
+        640,
+        567
+      ],
+      "bytes": 72486,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    "notebook.webp": {
+      "source": "generated-source/notebook-clean-attempt.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "crop": [
+        56,
+        120,
+        1479,
+        967
+      ],
+      "size": [
+        640,
+        381
+      ],
+      "bytes": 43872,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    "lamp-lit-v2.webp": {
+      "source": "generated-source/lamp-reference-v2.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "crop": [
+        174,
+        185,
+        1120,
+        979
+      ],
+      "size": [
+        640,
+        537
+      ],
+      "bytes": 87956,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    "notebook-v2.webp": {
+      "source": "generated-source/notebook-reference-v2.png",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "crop": [
+        123,
+        303,
+        1415,
+        767
+      ],
+      "size": [
+        640,
+        230
+      ],
+      "bytes": 41294,
+      "alpha": [
+        0,
+        255
+      ]
+    }
+  },
+  "paths": {
+    "glass": "M568 128 Q568 72 614 85 L1232 250 Q1254 256 1254 284 L1254 550 Q1254 577 1227 584 L600 653 Q568 658 568 620 Z",
+    "aperture": "M550 128 Q550 53 616 67 L1240 232 Q1276 242 1276 281 L1276 555 Q1276 599 1233 607 L600 682 Q548 688 548 627 Z",
+    "transom": "M580 0 L790 0 L1223 169 Q1247 179 1247 205 L1245 228 L1076 178 L1074 161 Q1073 156 1068 154 L997 130 Q986 126 985 138 L580 3 Z",
+    "transomAperture": "M568 -100 L1280 150 L1272 262 L568 70 Z"
+  },
+  "objects": {
+    "lamp": {
+      "asset": "lamp-lit-v2.webp",
+      "x": 1409,
+      "y": 191,
+      "width": 145,
+      "height": 123,
+      "cordAnchor": [
+        1537,
+        290
+      ],
+      "cordEnd": [
+        1537,
+        427
+      ],
+      "hitArea": [
+        1399,
+        181,
+        166,
+        256
+      ]
+    },
+    "notebook": {
+      "asset": "notebook-v2.webp",
+      "x": 1030,
+      "y": 676,
+      "width": 255,
+      "height": 91,
+      "hitArea": [
+        1020,
+        666,
+        275,
+        111
+      ]
+    },
+    "window": {
+      "hitArea": [
+        600,
+        10,
+        640,
+        230
+      ],
+      "material": "compartment.webp original painted rail",
+      "renderer": "window-unit.js shared 3D frame, rebate, seal, sash and glass",
+      "angle": 42,
+      "mainPane": "fixed"
+    }
+  },
+  "landscape": {
+    "asset": "forest-panorama.webp",
+    "x": 440,
+    "y": -70,
+    "width": 2172,
+    "height": 724,
+    "clip": "window-aperture-mask.svg",
+    "transomClip": "transom-mask.svg",
+    "renderer": "scene-engine.js continuous independent sprites",
+    "atlas": "trees-atlas.webp",
+    "speeds": [
+      26,
+      115,
+      420
+    ],
+    "loop": "No whole-image swap or crossfade; individual sprites replaced off-screen"
+  },
+  "reference": {
+    "path": "references/compartment-layout.png",
+    "usage": "Visual reference only; no pixels from this image are used in the page",
+    "lampState": "lit-static"
+  },
+  "layerOrder": [
+    "forest",
+    "compartment-foreground",
+    "rain-in-glass",
+    "window-unit",
+    "curtain-foreground",
+    "wall-and-table-light",
+    "lamp",
+    "cord",
+    "notebook-contact-shadow",
+    "notebook"
+  ],
+  "crops": {
+    "camera": "Computed from stage ratio in app.js; source 1672x941; landscape centered, portrait right edge 1534; crop without distortion"
+  },
+  "mobileNotes": "Portrait moves the lamp left with its cord and lighting, and fits the notebook on the table with uniform scaling. Hit areas follow the prop transforms and are clipped to the viewport.",
+  "status": {
+    "assetsPrepared": true,
+    "motionImplemented": true,
+    "visualWindowTiltVerified": true,
+    "physicalWindowOpeningVerified": false
+  },
+  "layout": "fullscreen scene, modal entry, controls below"
+}

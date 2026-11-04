@@ -1,0 +1,23 @@
+{
+  "train": {
+    "seconds": 6.139773242630386,
+    "crossfadeSeconds": 1.1,
+    "peak": 0.753237464196318,
+    "seamStep": 0.010531071013870325,
+    "bytes": 74963
+  },
+  "rain": {
+    "seconds": 45.0,
+    "crossfadeSeconds": 3,
+    "peak": 0.8499999999999999,
+    "seamStep": 0.021382702802218233,
+    "bytes": 541092
+  },
+  "wind": {
+    "seconds": 12.839954648526078,
+    "crossfadeSeconds": 2,
+    "peak": 0.5148923266080088,
+    "seamStep": 0.008583422496242782,
+    "bytes": 155211
+  }
+}
